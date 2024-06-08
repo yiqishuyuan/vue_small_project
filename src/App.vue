@@ -1,28 +1,69 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <!-- 主体区域 -->
+  <section id="app">
+    <XhHeaderVue @DateInfo="addInfo"></XhHeaderVue>
+    <XhMainVue :list="list" v-on:DeleteCount="delList"></XhMainVue>
+    <XhFooterVue :list="list" v-on:DelAll="delAll"></XhFooterVue>
+  </section>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import XhFooterVue from './components/XhFooter.vue'
+import XhHeaderVue from './components/XhHeader.vue'
+import XhMainVue from './components/XhMain.vue'
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
+    XhFooterVue,
+    XhHeaderVue,
+    XhMainVue
+  },
+  data() {
+    return {
+      list: JSON.parse(localStorage.getItem('list')) || [
+        { id: 1, name: '打篮球', },
+        { id: 2, name: '打足球', },
+        { id: 3, name: '游泳半小时', },
+        { id: 4, name: '练习钢琴', },
+
+      ]
+    }
+  },
+  methods: {
+    // 删除
+    delList(id) {
+      this.list = this.list.filter(item => item.id != id)
+    },
+    // 添加
+    addInfo(value) {
+      console.log(value)
+      if (value.trim() === '') {
+        console.error(alert('error ,input data not conform!'))
+      } else {
+        this.list.unshift({
+          id: +new Date(),
+          name: value,
+        })
+      }
+
+    },
+    //全部删除
+    delAll() {
+      this.list = []
+
+    }
+  },
+  // 持续化存储
+  watch: {
+    // 监听list
+    list: {
+      deep: true,
+      handler(newvalue) {
+        localStorage.setItem('list', JSON.stringify(newvalue))
+      }
+    }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+<style></style>
