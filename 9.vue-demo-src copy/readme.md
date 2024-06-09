@@ -1,0 +1,1 @@
+### 使用provide 和inject 在不同组件的调用
