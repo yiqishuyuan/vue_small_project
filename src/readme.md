@@ -1,1 +1,1 @@
-### 类v-model方法---->.sync  和update 该方法可以自定义
+### ref 和$refs 对获取dom组件和组件实列的应用

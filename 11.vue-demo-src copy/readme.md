@@ -1,0 +1,1 @@
+### 类v-model方法---->.sync  和update 该方法可以自定义
